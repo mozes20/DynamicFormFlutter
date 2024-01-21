@@ -395,7 +395,7 @@ class _GenerateTextField extends StatelessWidget {
             TextEditingController textEditingController,
             FocusNode focusNode,
             VoidCallback onFieldSubmitted) {
-          textEditingController = controller;
+          //controller = textEditingController;
           return TextFormField(
             decoration: Constants.setInputBorder(
               context,
@@ -405,7 +405,7 @@ class _GenerateTextField extends StatelessWidget {
               labelText: element.label,
               hintText: element.hint,
             ),
-            controller: textEditingController,
+            controller: controller,
             focusNode: focusNode,
           );
         },
