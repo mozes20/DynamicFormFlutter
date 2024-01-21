@@ -376,12 +376,15 @@ class _GenerateTextField extends StatelessWidget {
         ),
       );
     } else if (element is TextAutoCompliteElement) {
+      element as TextAutoCompliteElement;
       return Autocomplete<String>(
         optionsBuilder: (TextEditingValue textEditingValue) {
           if (textEditingValue.text == '') {
             return const Iterable<String>.empty();
           }
-          return element.suggestion!.where((String option) {
+          return (element as TextAutoCompliteElement)
+              .suggestions!
+              .where((String option) {
             return option
                 .toLowerCase()
                 .contains(textEditingValue.text.toLowerCase());

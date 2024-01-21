@@ -76,7 +76,6 @@ class TextElement extends FormElement {
   final EdgeInsets padding;
   final bool? isRequired;
   final bool readOnly;
-  final List<String>? suggestion;
 
   TextElement({
     String? id,
@@ -92,7 +91,6 @@ class TextElement extends FormElement {
     this.readOnly = false,
     this.padding = const EdgeInsets.all(2.0),
     bool visibility = true,
-    this.suggestion,
   }) : super(
           id: id,
           typeInput: typeInput,
@@ -115,8 +113,7 @@ class TextElement extends FormElement {
 ///
 ///
 ///
-class TextAutoCompliteElement extends FormElement {
-  final TypeInput typeInput;
+class TextAutoCompliteElement extends TextElement {
   final String? initValue;
   final Function? onTap;
   final DecorationElement? decorationElement;
@@ -131,7 +128,6 @@ class TextAutoCompliteElement extends FormElement {
 
   TextAutoCompliteElement({
     String? id,
-    this.typeInput = TypeInput.Text,
     this.initValue,
     this.onTap,
     this.decorationElement,
@@ -143,10 +139,10 @@ class TextAutoCompliteElement extends FormElement {
     this.readOnly = false,
     this.padding = const EdgeInsets.all(2.0),
     bool visibility = true,
-    this.suggestions,
+    this.suggestions = const [],
   }) : super(
           id: id,
-          typeInput: typeInput,
+          typeInput: TypeInput.TextAutoCompliteElement,
           initValue: initValue,
           decorationElement: decorationElement,
           label: label,
