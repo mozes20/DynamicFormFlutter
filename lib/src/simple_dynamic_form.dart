@@ -399,6 +399,7 @@ class _GenerateTextField extends StatelessWidget {
             FocusNode focusNode,
             VoidCallback onFieldSubmitted) {
           return TextFormField(
+            onChanged: (value) => {print(value)},
             decoration: Constants.setInputBorder(
               context,
               element.decorationElement,
