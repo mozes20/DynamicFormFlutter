@@ -376,7 +376,7 @@ class _GenerateTextField extends StatelessWidget {
         ),
       );
     } else if (element is TextAutoCompliteElement) {
-      element as TextAutoCompliteElement;
+      print((element as TextAutoCompliteElement).suggestions);
       return Autocomplete<String>(
         optionsBuilder: (TextEditingValue textEditingValue) {
           if (textEditingValue.text == '') {
