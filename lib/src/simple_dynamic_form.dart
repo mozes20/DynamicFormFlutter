@@ -398,6 +398,7 @@ class _GenerateTextField extends StatelessWidget {
             TextEditingController textEditingController,
             FocusNode focusNode,
             VoidCallback onFieldSubmitted) {
+          controller = textEditingController;
           return TextFormField(
             onChanged: (value) {
               print('TextFormField input: $value');
@@ -407,7 +408,7 @@ class _GenerateTextField extends StatelessWidget {
               element.decorationElement,
               common: commonDecorationElement,
             ),
-            controller: controller,
+            controller: textEditingController,
             focusNode: focusNode,
           );
         },
