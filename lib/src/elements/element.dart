@@ -6,10 +6,12 @@ import '../utilities/patterns.dart';
 import 'decoration_element.dart';
 
 enum TypeInput { Text, Email, Password, Phone, Numeric, Address, multiLine }
+
 enum CountryTextResult {
   FullName,
   countryCode,
 }
+
 enum DateExpirationEntryMode {
   /// dropdown for month input and year input.
   dropdown,
@@ -65,6 +67,7 @@ class TextElement extends FormElement {
   final EdgeInsets padding;
   final bool? isRequired;
   final bool readOnly;
+  final List<String>? suggestion;
 
   TextElement({
     String? id,
@@ -80,6 +83,58 @@ class TextElement extends FormElement {
     this.readOnly = false,
     this.padding = const EdgeInsets.all(2.0),
     bool visibility = true,
+    this.suggestion,
+  }) : super(
+          id: id,
+          typeInput: typeInput,
+          initValue: initValue,
+          decorationElement: decorationElement,
+          label: label,
+          hint: hint,
+          error: error,
+          readOnly: readOnly,
+          visibility: visibility,
+        );
+}
+
+///[TextElement] : base blueprint for TextFormField
+///
+///
+///
+///
+///
+///
+///
+///
+class TextAutoCompliteElement extends FormElement {
+  final TypeInput typeInput;
+  final String? initValue;
+  final Function? onTap;
+  final DecorationElement? decorationElement;
+  final String? label;
+  final String? hint;
+  final String? error;
+  final Validation? validator;
+  final EdgeInsets padding;
+  final bool? isRequired;
+  final bool readOnly;
+  final List<String>? suggestions;
+
+  TextAutoCompliteElement({
+    String? id,
+    this.typeInput = TypeInput.Text,
+    this.initValue,
+    this.onTap,
+    this.decorationElement,
+    this.label = "",
+    this.hint = "",
+    this.error = "",
+    this.validator,
+    this.isRequired = false,
+    this.readOnly = false,
+    this.padding = const EdgeInsets.all(2.0),
+    bool visibility = true,
+    this.suggestions,
   }) : super(
           id: id,
           typeInput: typeInput,
@@ -218,13 +273,19 @@ class PasswordElement extends TextElement {
                   if (password.isNotEmpty) {
                     if (password.length < minLength) {
                       return errors?.minLengthErrorMsg;
-                    } else if (RegExp(Patterns.upperAlpha).stringMatch(password) == null &&
+                    } else if (RegExp(Patterns.upperAlpha)
+                                .stringMatch(password) ==
+                            null &&
                         hasUppercase!) {
                       return errors?.uppercaseErrorMsg ?? "";
-                    } else if (RegExp(Patterns.specialChar).stringMatch(password) == null &&
+                    } else if (RegExp(Patterns.specialChar)
+                                .stringMatch(password) ==
+                            null &&
                         hasSpecialCharacter!) {
                       return errors?.specialCharacterErrorMsg ?? "";
-                    } else if (RegExp(Patterns.digitPattern).stringMatch(password) == null &&
+                    } else if (RegExp(Patterns.digitPattern)
+                                .stringMatch(password) ==
+                            null &&
                         hasDigits!) {
                       return errors?.digitsErrorMsg ?? "";
                     }
@@ -406,6 +467,7 @@ class SelectChoiceElement extends TextElement {
           visibility: visibility,
         );
 }
+
 /// RadioGroupElement
 class RadioGroupElement extends TextElement {
   final String? initValue;
@@ -487,7 +549,9 @@ class PhoneNumberElement extends TextElement {
                 if (phone != null) {
                   if (phone.isEmpty) {
                     return errorMsg;
-                  } else if (RegExp(Patterns.phonePattern).allMatches(phone).isEmpty) {
+                  } else if (RegExp(Patterns.phonePattern)
+                      .allMatches(phone)
+                      .isEmpty) {
                     return errorMsg;
                   }
                 }
@@ -775,9 +839,12 @@ class PasswordError extends TextFieldError {
   const PasswordError({
     String requiredErrorMsg = "Password is required",
     this.minLengthErrorMsg = "",
-    this.uppercaseErrorMsg = "Password must include at least one uppercase letter ",
-    this.specialCharacterErrorMsg = "Password must include at least one special character",
-    this.digitsErrorMsg = "Password must include at least one digit from 0 to 9",
+    this.uppercaseErrorMsg =
+        "Password must include at least one uppercase letter ",
+    this.specialCharacterErrorMsg =
+        "Password must include at least one special character",
+    this.digitsErrorMsg =
+        "Password must include at least one digit from 0 to 9",
     String? error,
   }) : super(error: error, requiredErrorMsg: requiredErrorMsg);
 }

@@ -40,7 +40,8 @@ class SimpleDynamicForm extends StatefulWidget {
         super(key: key);
 
   static FormController? of(BuildContext context, {bool nullOk = false}) {
-    final SimpleDynamicForm? result = context.findAncestorWidgetOfExactType<SimpleDynamicForm>();
+    final SimpleDynamicForm? result =
+        context.findAncestorWidgetOfExactType<SimpleDynamicForm>();
     if (nullOk || result != null) return result!.controller;
     throw FlutterError.fromParts(<DiagnosticsNode>[
       ErrorSummary(
@@ -77,7 +78,8 @@ class SimpleDynamicFormState extends State<SimpleDynamicForm> {
   void clearValues() {
     _listGTextController.asMap().forEach((index, textControllers) {
       textControllers.asMap().forEach((indexController, controller) {
-        if (!widget.groupElements[index].textElements[indexController].readOnly) controller.clear();
+        if (!widget.groupElements[index].textElements[indexController].readOnly)
+          controller.clear();
       });
     });
   }
@@ -142,7 +144,8 @@ class SimpleDynamicFormState extends State<SimpleDynamicForm> {
         _list.add(controllerText);
         if (e.id != null && e.id!.isNotEmpty) {
           _mapGTextController.putIfAbsent("${e.id}", () => controllerText);
-          _mapValueNotifierErrorField.putIfAbsent("${e.id}", () => ValueNotifier(null));
+          _mapValueNotifierErrorField.putIfAbsent(
+              "${e.id}", () => ValueNotifier(null));
         }
         _listFocus.add(FocusNode());
       });
@@ -178,15 +181,18 @@ class SimpleDynamicFormState extends State<SimpleDynamicForm> {
                         Visibility(
                           visible: element.visibility,
                           child: Flexible(
-                            flex: getFlex(gelement.textElements, element, gelement.sizeElements),
+                            flex: getFlex(gelement.textElements, element,
+                                gelement.sizeElements),
                             child: Padding(
                               padding: element.padding,
                               child: _GenerateTextField(
-                                errorNotifier: _mapValueNotifierErrorField.containsKey(element.id)
+                                errorNotifier: _mapValueNotifierErrorField
+                                        .containsKey(element.id)
                                     ? _mapValueNotifierErrorField[element.id!]
                                     : null,
                                 element: element,
-                                commonDecorationElement: gelement.commonDecorationElements,
+                                commonDecorationElement:
+                                    gelement.commonDecorationElements,
                                 gElement: gelement,
                                 groupElements: widget.groupElements,
                                 controllers: _listGTextController,
@@ -214,12 +220,14 @@ class SimpleDynamicFormState extends State<SimpleDynamicForm> {
                           child: Padding(
                             padding: element.padding,
                             child: _GenerateTextField(
-                              errorNotifier: _mapValueNotifierErrorField.containsKey(element.id)
+                              errorNotifier: _mapValueNotifierErrorField
+                                      .containsKey(element.id)
                                   ? _mapValueNotifierErrorField[element.id!]
                                   : null,
                               element: element,
                               gElement: gelement,
-                              commonDecorationElement: gelement.commonDecorationElements,
+                              commonDecorationElement:
+                                  gelement.commonDecorationElements,
                               groupElements: widget.groupElements,
                               controllers: _listGTextController,
                               focusList: focusList,
@@ -246,7 +254,8 @@ class SimpleDynamicFormState extends State<SimpleDynamicForm> {
     );
   }
 
-  int getFlex(List<TextElement?> textElements, element, List<double> sizeElements) {
+  int getFlex(
+      List<TextElement?> textElements, element, List<double> sizeElements) {
     int flex = 0;
     if (textElements.indexOf(element) < sizeElements.length)
       flex = (sizeElements[textElements.indexOf(element)] * 10).toInt();
@@ -347,11 +356,13 @@ class _GenerateTextField extends StatelessWidget {
         validator: element.validator,
         style: element.decorationElement?.style,
         focusNode: focusNodeCurrent,
-        inputFormatters:
-            (element as NumberElement).isDigits ? [FilteringTextInputFormatter.digitsOnly] : [],
+        inputFormatters: (element as NumberElement).isDigits
+            ? [FilteringTextInputFormatter.digitsOnly]
+            : [],
         keyboardType: Constants.getInput(element.typeInput),
         readOnly: element.readOnly,
-        textInputAction: focusNodeNext == null ? TextInputAction.done : TextInputAction.next,
+        textInputAction:
+            focusNodeNext == null ? TextInputAction.done : TextInputAction.next,
         onFieldSubmitted: (v) {
           Constants.fieldFocusChange(context, focusNodeCurrent, focusNodeNext);
         },
@@ -363,6 +374,20 @@ class _GenerateTextField extends StatelessWidget {
           labelText: element.label,
           hintText: element.hint,
         ),
+      );
+    } else if (element is TextAutoCompliteElement) {
+      return Autocomplete<String>(
+        optionsBuilder: (TextEditingValue textEditingValue) {
+          if (textEditingValue.text == '') {
+            return const Iterable<String>.empty();
+          }
+          return element.suggestion!.where((String option) {
+            return option.contains(textEditingValue.text.toLowerCase());
+          });
+        },
+        onSelected: (String selection) {
+          controller.text = selection;
+        },
       );
     } else if (element is CountryElement) {
       return CountryTextField(
@@ -451,9 +476,12 @@ class _GenerateTextField extends StatelessWidget {
             enabled: true,
             onTap: element.onTap as void Function()?,
             focusNode: focusNodeCurrent,
-            textInputAction: focusNodeNext == null ? TextInputAction.done : TextInputAction.next,
+            textInputAction: focusNodeNext == null
+                ? TextInputAction.done
+                : TextInputAction.next,
             onFieldSubmitted: (v) {
-              Constants.fieldFocusChange(context, focusNodeCurrent, focusNodeNext);
+              Constants.fieldFocusChange(
+                  context, focusNodeCurrent, focusNodeNext);
             },
             decoration: Constants.setInputBorder(
               context,
@@ -486,7 +514,8 @@ class _GenerateTextField extends StatelessWidget {
       enabled: true,
       onTap: element.onTap as void Function()?,
       focusNode: focusNodeCurrent,
-      textInputAction: focusNodeNext == null ? TextInputAction.done : TextInputAction.next,
+      textInputAction:
+          focusNodeNext == null ? TextInputAction.done : TextInputAction.next,
       onFieldSubmitted: (v) {
         Constants.fieldFocusChange(context, focusNodeCurrent, focusNodeNext);
       },
