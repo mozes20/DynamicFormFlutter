@@ -382,11 +382,27 @@ class _GenerateTextField extends StatelessWidget {
             return const Iterable<String>.empty();
           }
           return element.suggestion!.where((String option) {
-            return option.contains(textEditingValue.text.toLowerCase());
+            return option
+                .toLowerCase()
+                .contains(textEditingValue.text.toLowerCase());
           });
         },
         onSelected: (String selection) {
           controller.text = selection;
+        },
+        fieldViewBuilder: (BuildContext context,
+            TextEditingController textEditingController,
+            FocusNode focusNode,
+            VoidCallback onFieldSubmitted) {
+          return TextFormField(
+            decoration: Constants.setInputBorder(
+              context,
+              element.decorationElement,
+              common: commonDecorationElement,
+            ),
+            controller: controller,
+            focusNode: focusNode,
+          );
         },
       );
     } else if (element is CountryElement) {
