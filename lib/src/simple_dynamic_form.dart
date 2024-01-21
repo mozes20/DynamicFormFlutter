@@ -379,6 +379,7 @@ class _GenerateTextField extends StatelessWidget {
       print((element as TextAutoCompliteElement).suggestions);
       return Autocomplete<String>(
         optionsBuilder: (TextEditingValue textEditingValue) {
+          print(textEditingValue.text);
           if (textEditingValue.text == '') {
             return const Iterable<String>.empty();
           }
