@@ -13,7 +13,7 @@ enum TypeInput {
   Numeric,
   Address,
   multiLine,
-  TextAutoCompliteElement
+  TextAutoCompleteElement
 }
 
 enum CountryTextResult {
@@ -113,10 +113,11 @@ class TextElement extends FormElement {
 ///
 ///
 ///
-class TextAutoCompliteElement extends TextElement {
+class TextAutoCompleteElement extends TextElement {
   final String? initValue;
   final Function? onTap;
   final DecorationElement? decorationElement;
+  final DecorationElement? decorationSuggestionElement;
   final String? label;
   final String? hint;
   final String? error;
@@ -126,7 +127,7 @@ class TextAutoCompliteElement extends TextElement {
   final bool readOnly;
   final List<String>? suggestions;
 
-  TextAutoCompliteElement({
+  TextAutoCompleteElement({
     String? id,
     this.initValue,
     this.onTap,
@@ -140,9 +141,10 @@ class TextAutoCompliteElement extends TextElement {
     this.padding = const EdgeInsets.all(2.0),
     bool visibility = true,
     this.suggestions = const [],
+    this.decorationSuggestionElement,
   }) : super(
           id: id,
-          typeInput: TypeInput.TextAutoCompliteElement,
+          typeInput: TypeInput.TextAutoCompleteElement,
           initValue: initValue,
           decorationElement: decorationElement,
           label: label,

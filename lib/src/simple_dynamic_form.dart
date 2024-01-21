@@ -375,16 +375,13 @@ class _GenerateTextField extends StatelessWidget {
           hintText: element.hint,
         ),
       );
-    } else if (element is TextAutoCompliteElement) {
-      print((element as TextAutoCompliteElement).suggestions);
+    } else if (element is TextAutoCompleteElement) {
       return Autocomplete<String>(
         optionsBuilder: (TextEditingValue textEditingValue) {
-          print('User input: ${textEditingValue.text}');
           if (textEditingValue.text == '') {
             return const Iterable<String>.empty();
           }
-          var suggestions = (element as TextAutoCompliteElement).suggestions!;
-          print('Suggestions: $suggestions');
+          var suggestions = (element as TextAutoCompleteElement).suggestions!;
           return suggestions.where((String option) {
             return option
                 .toLowerCase()
@@ -400,9 +397,6 @@ class _GenerateTextField extends StatelessWidget {
             VoidCallback onFieldSubmitted) {
           controller = textEditingController;
           return TextFormField(
-            onChanged: (value) {
-              print('TextFormField input: $value');
-            },
             decoration: Constants.setInputBorder(
               context,
               element.decorationElement,
@@ -413,7 +407,6 @@ class _GenerateTextField extends StatelessWidget {
           );
         },
       );
-      ;
     } else if (element is CountryElement) {
       return CountryTextField(
         textEditingController: controller,
@@ -429,6 +422,9 @@ class _GenerateTextField extends StatelessWidget {
           context,
           element.decorationElement,
           common: commonDecorationElement,
+        ).copyWith(
+          labelText: element.label,
+          hintText: element.hint,
         ),
         currentFocus: focusNodeCurrent,
         nextFocus: focusNodeNext,
