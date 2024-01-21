@@ -5,7 +5,16 @@ import 'package:intl/intl.dart';
 import '../utilities/patterns.dart';
 import 'decoration_element.dart';
 
-enum TypeInput { Text, Email, Password, Phone, Numeric, Address, multiLine }
+enum TypeInput {
+  Text,
+  Email,
+  Password,
+  Phone,
+  Numeric,
+  Address,
+  multiLine,
+  TextAutoCompliteElement
+}
 
 enum CountryTextResult {
   FullName,
