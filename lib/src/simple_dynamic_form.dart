@@ -395,12 +395,15 @@ class _GenerateTextField extends StatelessWidget {
             TextEditingController textEditingController,
             FocusNode focusNode,
             VoidCallback onFieldSubmitted) {
-          controller = textEditingController;
+          textEditingController = controller;
           return TextFormField(
             decoration: Constants.setInputBorder(
               context,
               element.decorationElement,
               common: commonDecorationElement,
+            ).copyWith(
+              labelText: element.label,
+              hintText: element.hint,
             ),
             controller: textEditingController,
             focusNode: focusNode,
@@ -422,9 +425,6 @@ class _GenerateTextField extends StatelessWidget {
           context,
           element.decorationElement,
           common: commonDecorationElement,
-        ).copyWith(
-          labelText: element.label,
-          hintText: element.hint,
         ),
         currentFocus: focusNodeCurrent,
         nextFocus: focusNodeNext,
