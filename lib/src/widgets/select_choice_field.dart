@@ -28,8 +28,11 @@ class _SelectChoiceFieldState extends State<SelectChoiceField> {
 
   @override
   Widget build(BuildContext context) {
+    final iconSize = Theme.of(context).iconTheme.size;
     return DropdownButtonFormField<String>(
-      value: widget.textEditingController.text.isEmpty ? widget.element.initValue : widget.textEditingController.text,
+      value: widget.textEditingController.text.isEmpty
+          ? widget.element.initValue
+          : widget.textEditingController.text,
       elevation: 16,
       style: widget.element.decorationElement?.style,
       hint: widget.element.hint != null
@@ -42,13 +45,15 @@ class _SelectChoiceFieldState extends State<SelectChoiceField> {
           widget.textEditingController.text = newValue!;
         });
       },
-      items: widget.element.values.map<DropdownMenuItem<String>>((String value) {
+      items:
+          widget.element.values.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
         );
       }).toList(),
       decoration: widget.inputDecoration,
+      iconSize: iconSize ?? 24.0,
     );
   }
 }
