@@ -402,6 +402,9 @@ class _GenerateTextField extends StatelessWidget {
               } else {
                 controller.text = value;
               }
+              if ((element as TextAutoCompleteElement).onChange != null) {
+                (element as TextAutoCompleteElement).onChange!();
+              }
             },
             decoration: Constants.setInputBorder(
               context,

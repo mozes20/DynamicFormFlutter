@@ -116,6 +116,7 @@ class TextElement extends FormElement {
 class TextAutoCompleteElement extends TextElement {
   final String? initValue;
   final Function? onTap;
+  final Function? onChange;
   final DecorationElement? decorationElement;
   final DecorationElement? decorationSuggestionElement;
   final String? label;
@@ -131,6 +132,7 @@ class TextAutoCompleteElement extends TextElement {
     String? id,
     this.initValue,
     this.onTap,
+    this.onChange,
     this.decorationElement,
     this.label = "",
     this.hint = "",
