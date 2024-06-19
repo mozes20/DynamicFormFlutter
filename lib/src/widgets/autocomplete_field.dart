@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dynamic_form/dynamic_form.dart';
-import 'package:dynamic_form/src/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class AutocompleteField extends StatefulWidget {
@@ -51,6 +50,23 @@ class _AutocompleteFieldState extends State<AutocompleteField> {
           onSelected: (String selection) {
             debugPrint('You just selected $selection');
           },
+          fieldViewBuilder: (BuildContext context,
+              TextEditingController textEditingController,
+              FocusNode focusNode,
+              VoidCallback onFieldSubmitted) {
+            return TextFormField(
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  textEditingController.text = '';
+                } else {
+                  textEditingController.text = value;
+                }
+              },
+              decoration: widget.inputDecoration,
+              controller: textEditingController, // Use the central controller
+              focusNode: focusNode,
+            );
+          },
         )
       ],
     );
@@ -63,7 +79,7 @@ typedef _Debounceable<S, T> = Future<S?> Function(T parameter);
 ///
 /// This means that the original function will be called only after no calls
 /// have been made for the given Duration.
-Debounceable<S, T> _debounce<S, T>(Debounceable<S?, T> function) {
+_Debounceable<S, T> _debounce<S, T>(_Debounceable<S?, T> function) {
   _DebounceTimer? debounceTimer;
 
   return (T parameter) async {
@@ -110,9 +126,4 @@ class _DebounceTimer {
 // An exception indicating that the timer was canceled.
 class _CancelException implements Exception {
   const _CancelException();
-}
-
-// An exception indicating that a network request has failed.
-class _NetworkException implements Exception {
-  const _NetworkException();
 }

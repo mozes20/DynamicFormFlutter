@@ -380,49 +380,14 @@ class _GenerateTextField extends StatelessWidget {
       return AutocompleteField(
         textEditingController: controller,
         element: element as AutocompleteElement,
-      );
-      return Autocomplete<String>(
-        optionsBuilder: (TextEditingValue textEditingValue) {
-          if (textEditingValue.text == '') {
-            return const Iterable<String>.empty();
-          }
-          var suggestions = (element as AutocompleteElement).suggestions!;
-          return suggestions.where((String option) {
-            return option
-                .toLowerCase()
-                .contains(textEditingValue.text.toLowerCase());
-          });
-        },
-        onSelected: (String selection) {
-          controller.text = selection;
-        },
-        fieldViewBuilder: (BuildContext context,
-            TextEditingController textEditingController,
-            FocusNode focusNode,
-            VoidCallback onFieldSubmitted) {
-          return TextFormField(
-            onChanged: (value) {
-              if (value.isEmpty) {
-                controller.text = '';
-              } else {
-                controller.text = value;
-              }
-              if ((element as AutocompleteElement).onChange != null) {
-                (element as AutocompleteElement).onChange!();
-              }
-            },
-            decoration: Constants.setInputBorder(
-              context,
-              element.decorationElement,
-              common: commonDecorationElement,
-            ).copyWith(
-              labelText: element.label,
-              hintText: element.hint,
-            ),
-            controller: textEditingController, // Use the central controller
-            focusNode: focusNode,
-          );
-        },
+        inputDecoration: Constants.setInputBorder(
+          context,
+          element.decorationElement,
+          common: commonDecorationElement,
+        ).copyWith(
+          labelText: element.label,
+          hintText: element.hint,
+        ),
       );
     } else if (element is CountryElement) {
       return CountryTextField(

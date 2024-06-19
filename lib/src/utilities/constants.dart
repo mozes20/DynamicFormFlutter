@@ -2,8 +2,6 @@ import 'package:dynamic_form/dynamic_form.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-typedef Debounceable<S, T> = Future<S?> Function(T parameter);
-
 enum CountryFlagSize {
   w20,
   w40,
