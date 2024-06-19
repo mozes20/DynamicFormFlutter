@@ -63,7 +63,8 @@ class _AutocompleteFieldState extends State<AutocompleteField> {
                 }
               },
               decoration: widget.inputDecoration,
-              controller: textEditingController, // Use the central controller
+              controller:
+                  widget.textEditingController, // Use the central controller
               focusNode: focusNode,
             );
           },
