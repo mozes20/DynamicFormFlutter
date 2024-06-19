@@ -113,7 +113,7 @@ class TextElement extends FormElement {
 ///
 ///
 ///
-class TextAutoCompleteElement extends TextElement {
+class AutocompleteElement extends TextElement {
   final String? initValue;
   final Function? onTap;
   final Function? onChange;
@@ -127,8 +127,9 @@ class TextAutoCompleteElement extends TextElement {
   final bool? isRequired;
   final bool readOnly;
   final List<String>? suggestions;
+  final Future<Iterable<String>?> Function(String query) search;
 
-  TextAutoCompleteElement({
+  AutocompleteElement({
     String? id,
     this.initValue,
     this.onTap,
@@ -144,6 +145,7 @@ class TextAutoCompleteElement extends TextElement {
     bool visibility = true,
     this.suggestions = const [],
     this.decorationSuggestionElement,
+    required this.search,
   }) : super(
           id: id,
           typeInput: TypeInput.TextAutoCompleteElement,

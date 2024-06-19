@@ -1,3 +1,4 @@
+import 'package:dynamic_form/src/widgets/autocomplete_field.dart';
 import 'package:dynamic_form/src/widgets/radio_group_widget.dart';
 import 'package:dynamic_form/src/widgets/select_choice_field.dart';
 import 'package:flutter/material.dart';
@@ -375,13 +376,17 @@ class _GenerateTextField extends StatelessWidget {
           hintText: element.hint,
         ),
       );
-    } else if (element is TextAutoCompleteElement) {
+    } else if (element is AutocompleteElement) {
+      return AutocompleteField(
+        textEditingController: controller,
+        element: element as AutocompleteElement,
+      );
       return Autocomplete<String>(
         optionsBuilder: (TextEditingValue textEditingValue) {
           if (textEditingValue.text == '') {
             return const Iterable<String>.empty();
           }
-          var suggestions = (element as TextAutoCompleteElement).suggestions!;
+          var suggestions = (element as AutocompleteElement).suggestions!;
           return suggestions.where((String option) {
             return option
                 .toLowerCase()
@@ -402,8 +407,8 @@ class _GenerateTextField extends StatelessWidget {
               } else {
                 controller.text = value;
               }
-              if ((element as TextAutoCompleteElement).onChange != null) {
-                (element as TextAutoCompleteElement).onChange!();
+              if ((element as AutocompleteElement).onChange != null) {
+                (element as AutocompleteElement).onChange!();
               }
             },
             decoration: Constants.setInputBorder(
