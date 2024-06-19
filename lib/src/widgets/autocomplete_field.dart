@@ -48,7 +48,7 @@ class _AutocompleteFieldState extends State<AutocompleteField> {
             return options;
           },
           onSelected: (String selection) {
-            debugPrint('You just selected $selection');
+            widget.textEditingController.text = selection;
           },
           fieldViewBuilder: (BuildContext context,
               TextEditingController textEditingController,
@@ -63,9 +63,9 @@ class _AutocompleteFieldState extends State<AutocompleteField> {
                 }
               },
               decoration: widget.inputDecoration,
-              controller:
-                  widget.textEditingController, // Use the central controller
+              controller: widget.textEditingController,
               focusNode: focusNode,
+              enableInteractiveSelection: false,
             );
           },
         )
