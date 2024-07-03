@@ -34,43 +34,86 @@ class _AutocompleteFieldState extends State<AutocompleteField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Autocomplete(
-          optionsBuilder: (textEditingValue) async {
-            final Iterable<String>? options =
-                await _debouncedSearch(textEditingValue.text);
-            if (options == null) {
-              return _lastOptions;
-            }
-            _lastOptions = options;
-            return options;
-          },
-          onSelected: (String selection) {
-            widget.textEditingController.text = selection;
-          },
-          fieldViewBuilder: (BuildContext context,
-              TextEditingController textEditingController,
-              FocusNode focusNode,
-              VoidCallback onFieldSubmitted) {
-            return TextFormField(
-              onChanged: (value) {
-                if (value.isEmpty) {
-                  textEditingController.text = '';
-                } else {
-                  textEditingController.text = value;
-                }
-              },
-              decoration: widget.inputDecoration,
-              controller: widget.textEditingController,
-              focusNode: focusNode,
-              enableInteractiveSelection: false,
-            );
-          },
-        )
-      ],
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Autocomplete<String>(
+            optionsBuilder: (textEditingValue) async {
+              final Iterable<String>? options =
+                  await _debouncedSearch(textEditingValue.text);
+              if (options == null) {
+                return _lastOptions;
+              }
+              _lastOptions = options;
+              return options;
+            },
+            onSelected: (String selection) {
+              widget.textEditingController.text = selection;
+            },
+            fieldViewBuilder: (BuildContext context,
+                TextEditingController textEditingController,
+                FocusNode focusNode,
+                VoidCallback onFieldSubmitted) {
+              return TextFormField(
+                onChanged: (value) {
+                  if (value.isEmpty) {
+                    textEditingController.text = '';
+                  } else {
+                    textEditingController.text = value;
+                  }
+                },
+                decoration: widget.inputDecoration,
+                controller: widget.textEditingController,
+                focusNode: focusNode,
+                enableInteractiveSelection: false,
+                onTap: () => setState(() => {}),
+              );
+            },
+            optionsViewBuilder: (context, onSelected, options) {
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Material(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          widget.inputDecoration?.border?.borderSide.width ??
+                              0.0),
+                    ),
+                    elevation: 10,
+                    color: Colors.white,
+                    shadowColor: Colors.black,
+                    child: Container(
+                      height: 52.0 * options.length,
+                      width: constraints.biggest.width,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: options.length,
+                        itemBuilder: (context, index) {
+                          final option = options.elementAt(index);
+                          return InkWell(
+                            customBorder: widget.inputDecoration?.border,
+                            hoverColor: Colors.grey.withOpacity(0.5),
+                            onTap: () {
+                              onSelected(option);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(option),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      );
+    });
   }
 }
 
