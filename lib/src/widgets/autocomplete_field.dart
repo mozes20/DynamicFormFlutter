@@ -77,9 +77,8 @@ class _AutocompleteFieldState extends State<AutocompleteField> {
                   alignment: Alignment.topLeft,
                   child: Material(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          widget.inputDecoration?.border?.borderSide.width ??
-                              0.0),
+                      borderRadius: widget.element.decorationElement?.radius ??
+                          BorderRadius.circular(0.0),
                     ),
                     elevation: 10,
                     color: Colors.white,
@@ -93,7 +92,9 @@ class _AutocompleteFieldState extends State<AutocompleteField> {
                         itemBuilder: (context, index) {
                           final option = options.elementAt(index);
                           return InkWell(
-                            customBorder: widget.inputDecoration?.border,
+                            borderRadius:
+                                widget.element.decorationElement?.radius ??
+                                    BorderRadius.circular(0.0),
                             hoverColor: Colors.grey.withOpacity(0.5),
                             onTap: () {
                               onSelected(option);
